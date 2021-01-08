@@ -31,10 +31,12 @@ flask site project for the subject rs (software development)
   python main.py
   ```
 
-  navigate to ```sh http://127.0.0.1``` to see the website
+  navigate to ```http://127.0.0.1``` to see the website
 
 ## Authors
 
   Martin Vayer - [VayerMaking](https://github.com/VayerMaking)
+
   Peter Damianov - [petardmnv](https://github.com/petardmnv)
+
   Victor Dimitrov - [Vic-Dim](https://github.com/Vic-Dim)
