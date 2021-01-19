@@ -33,6 +33,17 @@ flask site project for the subject rs (software development)
 
   navigate to ```http://127.0.0.1``` to see the website
 
+## ToDo list
+
+  - [x] register page
+  - [x] login page
+  - [ ] index page
+  - [ ] add new post/ topic for logged users
+  - [ ] password encryption
+  - [ ] images in posts
+  - [ ] limit post to 25
+  - [ ] beautify design?
+
 ## Authors
 
   Martin Vayer - [VayerMaking](https://github.com/VayerMaking)
