@@ -8,9 +8,8 @@ import hashlib
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
-db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
-
+db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -23,7 +22,17 @@ class User(db.Model):
 def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    author = db.Column(db.String)
+    topic = db.Column(db.String)
+    title = db.Column(db.String(30), nullable = False)
+    content = db.Column(db.String, nullable = False)
+    picture = db.Column(db.String(48), nullable = True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
         username = session['username']
@@ -60,9 +69,34 @@ def login():
 
 @app.route('/logout')
 def logout():
-   session.pop('username', None)
-   return redirect(url_for('index'))
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+@app.route('/post', methods = ['GET', 'POST'])
+def new_post():
+
+	if request.method == "POST": 
+		data = request.form
+		
+		post = Post(
+			   author = session['username']	,	
+			   topic = data['topic'],
+			   title = data['title'],
+			   content = data['content'],
+			   picture = data['picture'],		
+			)
+		
+		db.session.add(post)
+		db.session.commit()
+		
+		return render_template("index.html")
+	
+	else:
+	
+		return render_template("create_post.html")
+
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+	db.create_all()
+	app.run(debug=True)
+	
