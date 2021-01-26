@@ -42,12 +42,15 @@ def topic_return():
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def index():
+    if request.method == "GET":
+        if 'username' in session:
+            username = session['username']
+        else:
+            username = "Guest"
 
-	if request.method == "GET":
-	    if 'username' in session:
-	        username = session['username']
-	        
-	        return render_template('index.html', username=username, topics=topic_return())
+        return render_template('index.html', username=username, topics=topic_return())
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -68,12 +71,12 @@ def login():
         data = request.form
         user = User.query.filter_by(username=data['username'], password=hash_password(data['password'])).first()
         if not user:
-            return render_template("index.html")
+            return render_template("login.html", message="invalid credentials")
 
         session['username'] = data['username']
 
         return redirect(('/'))
-        
+
     elif request.method == "GET":
         return render_template("login.html")
 
@@ -86,25 +89,25 @@ def homepage(topic):
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('index'))
+    return redirect('/')
 
 @app.route('/new_topic', methods = ['GET', 'POST'])
 def new_topic():
 
-	if request.method == "POST": 
+	if request.method == "POST":
 		data = request.form
-		
+
 		topic = Topic(
-			   author = session['username']	,	
+			   author = session['username']	,
 			   title = data['title'],
 			   content = data['content'],
 			)
-		
+
 		db.session.add(topic)
 		db.session.commit()
-		
+
 		return redirect('/')
-	
+
 	else:
 		return render_template("create_topic.html")
 
@@ -112,4 +115,3 @@ def new_topic():
 if __name__ == '__main__':
 	db.create_all()
 	app.run(debug=True)
-	
