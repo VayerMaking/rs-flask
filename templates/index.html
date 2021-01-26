@@ -23,7 +23,7 @@
 	<p> no topics</p>
 {% endif %}
 {% for topic in topics %}
-	<br><a href = '/{{topic.title}}'> {{topic.title}} </a><br>
+	<br><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a><br>
 	<h5> {{topic.author}} </h5>
 {% endfor %}
 
