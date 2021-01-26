@@ -50,8 +50,6 @@ def index():
 
         return render_template('index.html', username=username, topics=topic_return())
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
@@ -80,11 +78,12 @@ def login():
     elif request.method == "GET":
         return render_template("login.html")
 
-@app.route("//<string:topic>")
-def homepage(topic):
-    #val = request.args.get('hello')
-    # get the name, text,image based on the topic(query_string)
-    return render_template("topic.html", topic=topic)
+@app.route("/topic/", methods=['GET'])
+def topic():
+    #print("query string", request.args.get('topic'))
+    posts = Topic.query.filter_by(title=request.args.get('topic')).all()
+    #print("topic", topic)
+    return render_template("topic.html", posts=posts)
 
 @app.route('/logout')
 def logout():

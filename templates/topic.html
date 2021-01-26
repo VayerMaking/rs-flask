@@ -4,10 +4,10 @@
 <p>Oh no Dont show page</p>
 {% else %}
 
-<form action="/topic" method="get">
-    <input type="text" name="topic" value="">
-    <input type="submit" value="Submit">
-</form>
+{% for post in posts %}
+	<br> {{post.title}} <br>
+	<h5> {{post.author}} </h5>
+{% endfor %}
 
 {% endif %}
 {% endblock %}
