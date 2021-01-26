@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+
+<form action="/topic" method="get">
+    <input type="text" name="topic" value="">
+    <input type="submit" value="Submit">
+</form>
+
+{% endif %}
+{% endblock %}

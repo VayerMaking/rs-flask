@@ -67,6 +67,12 @@ def login():
     elif request.method == "GET":
         return render_template("login.html")
 
+@app.route("//<string:topic>")
+def homepage(topic):
+    #val = request.args.get('hello')
+    # get the name, text,image based on the topic(query_string)
+    return render_template("topic.html", topic=topic)
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
