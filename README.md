@@ -1,6 +1,8 @@
 # rs-flask
 flask site project for the subject rs (software development)
 
+[![time tracker](https://wakatime.com/badge/github/VayerMaking/rs-flask.svg)](https://wakatime.com/badge/github/VayerMaking/rs-flask)
+
 ## the task
 
   ```sh
