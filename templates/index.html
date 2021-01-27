@@ -8,7 +8,7 @@
 </head>
   <body>
     <header>
-	<div class="table-responsive">          
+	<div class="table-responsive">
 	  <table class="table">
 	    <thead>
 	      <tr>
@@ -21,6 +21,7 @@
 		        <tr>
 				    <td><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a></td>
 				    <td>{{topic.author}}</td>
+						<td>{{topic.timestamp}}</td>
 				</tr>
 			{% endfor %}
 	    </tbody>

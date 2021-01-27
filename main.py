@@ -27,6 +27,7 @@ class Topic(db.Model):
     author = db.Column(db.String)
     title = db.Column(db.String(30), nullable = False)
     content = db.Column(db.String, nullable = False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = []
 
 class Post(db.Model):
@@ -35,9 +36,12 @@ class Post(db.Model):
     content = db.Column(db.String, nullable = False)
     picture = db.Column(db.String(48), nullable = True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    topic = db.Column(db.String)
 
 def topic_return():
-	return set(Topic.query.all())
+	return Topic.query.order_by(Topic.timestamp.asc()).all()
+    #entities = Topic.query.order_by(Topic.timestamp.desc()).all()
+    #return entities
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -110,6 +114,25 @@ def new_topic():
 	else:
 		return render_template("create_topic.html")
 
+@app.route('/new_post', methods = ['GET', 'POST'])
+def new_post():
+
+	if request.method == "POST":
+		data = request.form
+
+		post = Post(
+			   author = session['username']	,
+			   title = data['title'],
+			   content = data['content'],
+			)
+
+		db.session.add(post)
+		db.session.commit()
+
+		return redirect('/')
+
+	else:
+		return render_template("create_post.html")
 
 if __name__ == '__main__':
 	db.create_all()
