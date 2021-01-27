@@ -40,8 +40,6 @@ class Post(db.Model):
 
 def topic_return():
 	return Topic.query.order_by(Topic.timestamp.asc()).all()
-    #entities = Topic.query.order_by(Topic.timestamp.desc()).all()
-    #return entities
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])

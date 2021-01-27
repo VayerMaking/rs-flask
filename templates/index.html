@@ -12,6 +12,7 @@
 	  <table class="table">
 	    <thead>
 	      <tr>
+	      	<th>#</th>
 	        <th>Topic</th>
 	        <th>Author</th>
 	      </tr>
@@ -19,6 +20,7 @@
 	    <tbody>
 	        {% for topic in topics %}
 		        <tr>
+		        	<td>{{topic.id}}</td>
 				    <td><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a></td>
 				    <td>{{topic.author}}</td>
 						<td>{{topic.timestamp}}</td>
