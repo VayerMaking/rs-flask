@@ -12,26 +12,31 @@
 	  <table class="table">
 	    <thead>
 	      <tr>
+	      	<th>#</th>
 	        <th>Topic</th>
 	        <th>Author</th>
 	      </tr>
 	    </thead>
 	    <tbody>
-	        {% for topic in topics %}
+	        {% for topic in topics.items %}
 		        <tr>
+		        	<td>{{topic.id}}</td>
 				    <td><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a></td>
 				    <td>{{topic.author}}</td>
 						<td>{{topic.timestamp}}</td>
 				</tr>
 			{% endfor %}
+			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1) %}
+				{% if page_num %}
+					<a class="btn btn-default" href="{{ url_for('index', page=page_num)}}">page_num</a>
+				{% else %}
+					...
+				{% endif %}
+			{% endfor %}
 	    </tbody>
 	  </table>
 	</div>
     </header>
-    	<ul class="pager">
-		<li><a href="#">Previous</a></li>
-  		<li><a href="#">Next</a></li>
-		</ul>
  </body>
  {% endblock %}
 </html>

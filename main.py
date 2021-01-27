@@ -46,9 +46,8 @@ class Post(db.Model):
     topic = db.Column(db.String)
 
 def topic_return():
-	return Topic.query.order_by(Topic.timestamp.asc()).all()
-    #entities = Topic.query.order_by(Topic.timestamp.desc()).all()
-    #return entities
+	page = request.args.get('page', 1, type=int)
+	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=3)
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
