@@ -26,17 +26,21 @@
 						<td>{{topic.timestamp}}</td>
 				</tr>
 			{% endfor %}
-			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1) %}
-				{% if page_num %}
-					<a class="btn btn-default" href="{{ url_for('index', page=page_num)}}">page_num</a>
-				{% else %}
-					...
-				{% endif %}
-			{% endfor %}
 	    </tbody>
 	  </table>
 	</div>
     </header>
+			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1) %}
+				{% if page_num %}
+					{% if page_num == topics.page %}
+						<a class="btn btn-primary" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
+					{% else %}
+						<a class="btn btn-default" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
+					{% endif %}
+				{% else %}
+					...
+				{% endif %}
+			{% endfor %}
  </body>
  {% endblock %}
 </html>
