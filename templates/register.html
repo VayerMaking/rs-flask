@@ -3,7 +3,7 @@
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
-
+<a href = "/login"> Login </a><br>
 <h2>Register</h2>
 <form action="/register" method="POST">
   <input type="username" name="username" placeholder="Username">

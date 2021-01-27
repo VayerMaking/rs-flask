@@ -19,13 +19,13 @@
 
 {% endif %}
 
-{% if not topic%}
+{% if not topics%}
 	<p> no topics</p>
+{% else %}
+	{% for topic in topics %}
+		<br><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a><br>
+		<h5> {{topic.author}} </h5>
+	{% endfor %}
 {% endif %}
-{% for topic in topics %}
-	<br><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a><br>
-	<h5> {{topic.author}} </h5>
-{% endfor %}
-
 
 {% endblock %}

@@ -111,6 +111,30 @@ def new_topic():
 		return render_template("create_topic.html")
 
 
+@app.route('/topic/?topic=<title>/post', methods = ['GET', 'POST'])
+def new_post():
+
+	if request.method == "POST":
+		data = request.form
+
+		post = Post(
+			   author = session['username']	,
+			   content = data['content'],
+			   picture = data['picture']
+			)
+
+		db.session.add(topic)
+		db.session.commit()
+
+		topic = Topic.query.filter_by(title=request.args.get('topic')).all()
+		topic.posts.append(post)
+
+		return redirect('/topic', posts=topic)
+		
+	else:
+		return render_template("create_post.html")	
+
+
 if __name__ == '__main__':
 	db.create_all()
 	app.run(debug=True)

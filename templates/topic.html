@@ -7,6 +7,8 @@
 {% for post in posts %}
 	<br> {{post.title}} <br>
 	<h5> {{post.author}} </h5>
+	<h3> {{post.content}} </h3><br>
+	<a href = "/topic/?topic={{post.title}}/post"> Post a comment </a>
 {% endfor %}
 
 {% endif %}
