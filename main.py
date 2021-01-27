@@ -5,10 +5,17 @@ import time
 from datetime import datetime
 import config
 import hashlib
+import random
+import string
+import os
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -117,22 +124,36 @@ def new_topic():
 @app.route('/new_post', methods = ['GET', 'POST'])
 def new_post():
 
-	if request.method == "POST":
-		data = request.form
+    if request.method == "POST":
+        data = request.form
 
-		post = Post(
-			   author = session['username']	,
-			   title = data['title'],
-			   content = data['content'],
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post(
+            author = session['username'],
+            content = data['post_content'],
+            picture = file.filename
 			)
 
-		db.session.add(post)
-		db.session.commit()
+        db.session.add(post)
+        db.session.commit()
 
-		return redirect('/')
+        return redirect('/')
 
-	else:
-		return render_template("create_post.html")
+    else:
+        return render_template("create_post.html")
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def random_string(length):
+    return ''.join(random.choice(string.ascii_letters) for x in range(length))
+
 
 if __name__ == '__main__':
 	db.create_all()
