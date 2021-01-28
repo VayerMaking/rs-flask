@@ -10,7 +10,6 @@
 	  <table class="table">
 	    <thead>
 	      <tr>
-	      	<th>#</th>
 	        <th>Title</th>
 	        <th>Author</th>
 	        <th>Created at</th>
@@ -19,7 +18,6 @@
 	    <tbody>
 	        {% for post in posts.items %}
 		        <tr>
-		        	<td>{{post.id}}</td>
 				    <td><a href = "/post/?post_title={{post.title}}"> {{post.title}} </a></td>
 				    <td>{{post.author}}</td>
 				    <td>{{post.timestamp}}</td>
