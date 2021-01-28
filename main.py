@@ -56,12 +56,7 @@ def post_return():
 @app.route('/home', methods=['GET'])
 def index():
     if request.method == "GET":
-        if 'username' in session:
-            username = session['username']
-        else:
-            username = "Guest"
-
-        return render_template('index.html', username=username, topics=topic_return())
+        return render_template('index.html', topics=topic_return())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

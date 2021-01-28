@@ -4,12 +4,7 @@
 <div class="col text-center">
 {% if session['username'] %}
 
-	{% if username %}
-		<h4>Logged in as: {{username}}</h4>
-	{% else %}
-		{% set username = "Guest" %}
-		<h4>Logged in as: {{username}}</h4>
-	{% endif %}
+	<h4>Logged in as: {{session['username']}}</h4>
 	<a class="btn btn-default" role="button" href = '/'>Home</a>
 	<a class="btn btn-default" role="button" href = '/logout'>Log out</a>
 {% else %}
