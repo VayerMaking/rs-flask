@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+
+	<a class="btn btn-default" role="button" href="/topic/new_post">Update post</a>
+	<a class="btn btn-default" role="button" href="/topic/new_post">Delete post</a>
+	{% for post in posts %}
+		<h3><center><br>{{post.title}}</br></center></h3>
+		<h4><td>Written by: {{post.author}} at</td> 
+		<td>{{post.timestamp}}</td></br></h4>
+		<br> {{post.picture}} </br>
+		<td><img src="uploads/{{ post.picture }}" class = "card-img-top" width="256" height="128"></td>
+	    <td>{{post.content}}</td>
+	{% endfor %}
+{% endif %}
+{% endblock %}

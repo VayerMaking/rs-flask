@@ -3,13 +3,28 @@
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
+	<a class="btn btn-default" role="button" href="/topic/new_post/?topic={{topic}}">Create post</a>
 
-{% for post in posts %}
-	<br> {{post.title}} <br>
-	<h5> {{post.author}} </h5>
-	<h3> {{post.content}} </h3><br>
-	<a href = "/topic/?topic={{post.title}}/post"> Post a comment </a>
-{% endfor %}
+	<div class="table-responsive">
+	  <table class="table">
+	    <thead>
+	      <tr>
+	      	<th>#</th>
+	        <th>Title</th>
+	        <th>Author</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	        {% for post in posts %}
+		        <tr>
+		        	<td>{{post.id}}</td>
+				    <td><a href = "/post/?post_title={{post.title}}"> {{post.title}} </a></td>
+				    <td>{{post.author}}</td>
+				</tr>
+			{% endfor %}
+	    </tbody>
+	  </table>
+	</div>
 
 {% endif %}
 {% endblock %}
