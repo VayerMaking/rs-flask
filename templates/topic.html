@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block content %}
 {% if session['logged_in'] %}
@@ -5,35 +6,11 @@
 {% else %}
 <div class="col text-center">
 	<a class="btn btn-default" role="button" href="/topic/new_post/?topic={{topic}}">Create post</a>
-<<<<<<< HEAD
 
 	<div class="table-responsive">
 	  <table class="table">
 	    <thead>
 	      <tr>
-	      	<th>#</th>
-	        <th>Title</th>
-	        <th>Author</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	        {% for post in posts %}
-		        <tr>
-		        	<td>{{post.id}}</td>
-				    <td><a href = "/post/?post_title={{post.title}}"> {{post.title}} </a></td>
-				    <td>{{post.author}}</td>
-				</tr>
-			{% endfor %}
-	    </tbody>
-	  </table>
-	</div>
-=======
-
-	<div class="table-responsive">
-	  <table class="table">
-	    <thead>
-	      <tr>
-	      	<th>#</th>
 	        <th>Title</th>
 	        <th>Author</th>
 	        <th>Created at</th>
@@ -42,7 +19,6 @@
 	    <tbody>
 	        {% for post in posts.items %}
 		        <tr>
-		        	<td>{{post.id}}</td>
 				    <td><a href = "/post/?post_title={{post.title}}"> {{post.title}} </a></td>
 				    <td>{{post.author}}</td>
 				    <td>{{post.timestamp}}</td>
@@ -63,7 +39,6 @@
 		{% endif %}
 	{% endfor %}
 
->>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
 
 {% endif %}
 </div>

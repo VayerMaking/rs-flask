@@ -2,25 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <div class="col text-center">
-<<<<<<< HEAD
-	{% if username %}
-<<<<<<< HEAD
-	<h4>Logged in as: {{username}}</h4>
-	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
-	<a class="btn btn-default" role="button" href="/new_topic">Create new topic</a>
-=======
-		<h4>Logged in as: {{username}}</h4>
->>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
-	{% else %}
-		{% set username = "Guest" %}
-		<h4>Logged in as: {{username}}</h4>
-	{% endif %}
-	<b><a class="btn btn-default" role="button" href = '/'>Home</a></b>
-	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
-	<b><a class="btn btn-default" role="button" href="/new_topic">Create new topic</a></b>
-=======
 {% if session['username'] %}
->>>>>>> 9bcf81a5cc83cc188dbdf4e687cce00111024956
 
 	<h4>Logged in as: {{session['username']}}</h4>
 	<a class="btn btn-default" role="button" href = '/'>Home</a>
