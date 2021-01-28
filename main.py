@@ -147,8 +147,8 @@ def new_post():
 
 @app.route('/post/', methods = ['GET', 'POST'])
 def post():
-	posts = Post.query.filter_by(title=request.args.get('post_title')).all()
-	return render_template("post.html", posts=posts)
+	post = Post.query.filter_by(title=request.args.get('post_title')).first()
+	return render_template("post.html", post=post)
 
 @app.route('/post/update_post/', methods = ['GET', 'POST'])
 def update_post():
