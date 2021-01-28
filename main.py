@@ -5,10 +5,17 @@ import time
 from datetime import datetime
 import config
 import hashlib
+import random
+import string
+import os
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -27,6 +34,7 @@ class Topic(db.Model):
     author = db.Column(db.String)
     title = db.Column(db.String(30), nullable = False)
     content = db.Column(db.String, nullable = False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = []
 
 class Post(db.Model):
@@ -35,9 +43,11 @@ class Post(db.Model):
     content = db.Column(db.String, nullable = False)
     picture = db.Column(db.String(48), nullable = True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    topic = db.Column(db.String)
 
 def topic_return():
-	return set(Topic.query.all())
+	page = request.args.get('page', 1, type=int)
+	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=3)
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -109,6 +119,39 @@ def new_topic():
 
 	else:
 		return render_template("create_topic.html")
+
+@app.route('/new_post', methods = ['GET', 'POST'])
+def new_post():
+
+    if request.method == "POST":
+        data = request.form
+
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post(
+            author = session['username'],
+            content = data['post_content'],
+            picture = file.filename
+			)
+
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect('/')
+
+    else:
+        return render_template("create_post.html")
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def random_string(length):
+    return ''.join(random.choice(string.ascii_letters) for x in range(length))
 
 
 @app.route('/topic/?topic=<title>/post', methods = ['GET', 'POST'])
