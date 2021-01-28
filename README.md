@@ -27,6 +27,8 @@ flask site project for the subject rs (software development)
 
   change the default value of the secret_key in ```config.py```
 
+### OR
+
   create a virtual enviroment
 
   ```sh
