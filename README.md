@@ -11,20 +11,28 @@ flask site project for the subject rs (software development)
 
 ## How to use
 
+  use our installer - ```install.sh``` or prepare manually
+
   create a virtual enviroment
 
   ```sh
-  python3 -m venv env
+  python3 -m venv rs-flask
   ```
   enter the newly created virtual enviroment
 
   ```sh
-  source env/bin/activate
+  source rs-flask/bin/activate
   ```
   install the requirements
 
   ```sh
   pip install -r requirements.txt
+  ```
+
+  create a folder for pictures
+
+  ```sh
+  mkdir /static/uploads
   ```
 
   start the server script
@@ -42,9 +50,9 @@ flask site project for the subject rs (software development)
   - [x] index page
   - [x] add new post/ topic for logged users
   - [x] password encryption
-  - [ ] images in posts
-  - [ ] limit post to 25
-  - [ ] beautify design?
+  - [x] images in posts
+  - [x] limit post to 25
+  - [x] beautify design?
 
 ## Authors
 
