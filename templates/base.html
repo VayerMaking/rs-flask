@@ -3,8 +3,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 {% if session['username'] %}
-
-	<h4>Logged in as: {{username}}</h4>
+	{% if username %}
+		<h4>Logged in as: {{username}}</h4>
+	{% else %}
+		{% set username = "Guest" %}
+		<h4>Logged in as: {{username}}</h4>
+	{% endif %}
 	<b><a class="btn btn-default" role="button" href = '/'>Home</a></b>
 	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
 	<b><a class="btn btn-default" role="button" href="/new_topic">Create new topic</a></b>
