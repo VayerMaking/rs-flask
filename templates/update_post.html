@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+<div>Update Post:
+	<form method="POST" url = "new_post/?topic={{topic}}" enctype="multipart/form-data">
+	<br><input type="text" name="post_title" placeholder = "Title"><br>
+    <textarea name="post_content" style="width:250px;height:150px;" placeholder = "Content"></textarea>
+    <br><input type="file" name ="post_image" placeholder = "Image"><br>
+		<br><input type="submit" value="New Post" class="button">
+	</form>
+{% endif %}
+{% endblock %}

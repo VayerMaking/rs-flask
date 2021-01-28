@@ -5,10 +5,17 @@ import time
 from datetime import datetime
 import config
 import hashlib
+import random
+import string
+import os
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -24,20 +31,26 @@ def hash_password(password):
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    author = db.Column(db.String)
+    author = db.Column(db.String, nullable=False)
     title = db.Column(db.String(30), nullable = False)
-    content = db.Column(db.String, nullable = False)
-    posts = []
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    author = db.Column(db.String)
+    author = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable = False)
     content = db.Column(db.String, nullable = False)
     picture = db.Column(db.String(48), nullable = True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    topic = db.Column(db.String)
 
 def topic_return():
-	return set(Topic.query.all())
+	page = request.args.get('page', 1, type=int)
+	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=3)
+
+def post_return():
+	return Post.query.all()
+
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -81,9 +94,8 @@ def login():
 @app.route("/topic/", methods=['GET'])
 def topic():
     #print("query string", request.args.get('topic'))
-    posts = Topic.query.filter_by(title=request.args.get('topic')).all()
-    #print("topic", topic)
-    return render_template("topic.html", posts=posts)
+    posts = Post.query.filter_by(topic=request.args.get('topic')).all()
+    return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
 def logout():
@@ -99,7 +111,6 @@ def new_topic():
 		topic = Topic(
 			   author = session['username']	,
 			   title = data['title'],
-			   content = data['content'],
 			)
 
 		db.session.add(topic)
@@ -109,6 +120,79 @@ def new_topic():
 
 	else:
 		return render_template("create_topic.html")
+
+@app.route('/topic/new_post/', methods = ['GET', 'POST'])
+def new_post():
+
+    if request.method == "POST":
+        data = request.form
+
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post(
+            author = session['username'],
+            title = data['post_title'],
+            content = data['post_content'],
+            picture = file.filename,
+            topic = request.args.get('topic')
+			)
+
+        db.session.add(post)
+        db.session.commit()
+        #.get_topic().posts.append(post)
+        return redirect('/')
+
+    else:
+        return render_template("create_post.html", topic=request.args.get('topic'))
+
+@app.route('/post/', methods = ['GET', 'POST'])
+def post():
+	post = Post.query.filter_by(title=request.args.get('post_title')).all()
+	return render_template("post.html", posts=post)
+
+@app.route('/post/update_post/', methods = ['GET', 'POST'])
+def update_post():
+    if request.method == "POST":
+        data = request.form
+
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post.query.filter_by(title=request.args.get('post_title')).first()
+        print(post)
+        post.title = data['post_title']
+        post.content = data['post_content']
+        post.picture = file.filename
+
+        db.session.commit()
+
+        return redirect('/')
+
+    else:
+    	return render_template("update_post.html")
+
+@app.route('/post/delete_post/', methods = ['GET', 'POST'])
+def delete_post():
+    post = Post.query.filter_by(title=request.args.get('post_title')).first()
+    print("post:::", post)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect('/')
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def random_string(length):
+    return ''.join(random.choice(string.ascii_letters) for x in range(length))
 
 
 if __name__ == '__main__':
