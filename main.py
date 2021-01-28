@@ -154,6 +154,39 @@ def post():
 	post = Post.query.filter_by(title=request.args.get('post_title')).all()
 	return render_template("post.html", posts=post)
 
+@app.route('/post/update_post/', methods = ['GET', 'POST'])
+def update_post():
+    if request.method == "POST":
+        data = request.form
+
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post.query.filter_by(title=request.args.get('post_title')).first()
+        print(post)
+        post.title = data['post_title']
+        post.content = data['post_content']
+        post.picture = file.filename
+
+        db.session.commit()
+
+        return redirect('/')
+
+    else:
+    	return render_template("update_post.html")
+
+@app.route('/post/delete_post/', methods = ['GET', 'POST'])
+def delete_post():
+    post = Post.query.filter_by(title=request.args.get('post_title')).first()
+    print("post:::", post)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect('/')
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
