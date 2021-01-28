@@ -3,12 +3,15 @@
 {% if session['logged_in'] %}
 <p>You're logged in already!</p>
 {% else %}
+<div class="col text-center">
 <h2>Login</h2>
 <form action="/login" method="POST">
-  <input type="username" name="username" placeholder="Username">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Log in">
+  <br><input type="username" name="username" placeholder="Username"><br>
+  <br><input type="password" name="password" placeholder="Password"><br>
+  <br><input type="submit" value="Log in">
 </form>
 
+{{message}}
+</div>
 {% endif %}
 {% endblock %}

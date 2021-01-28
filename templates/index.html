@@ -1,21 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-{% if session['username'] %}
 
-	{% if username %}
-	<h3>logged in as : {{username}}</h3><br>
-	<b><a href = '/logout'>click here to log out</a></b>"
-	{% else %}
-
-	<a href="/logout">Logout</a> <br> <br>
-
-	{% endif %}
-
-{% else %}
-<p>Not login!</p>
-
-<a href="/login">Login</a>
-<a href="/register">Register</a>
-
+{% if topic==None %}
+	<p class="text-center"> no topics</p>
 {% endif %}
-{% endblock %}
+
+</head>
+  <body>
+    <header>
+<div class="col text-center">
+    <a class="btn btn-default" role="button" href="/new_topic">Create new topic</a>
+	<div class="table-responsive">
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Topic</th>
+	        <th>Author</th>
+	        <th>Created at</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	        {% for topic in topics.items %}
+		        <tr>
+				    <td><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a></td>
+				    <td>{{topic.author}}</td>
+						<td>{{topic.timestamp}}</td>
+				</tr>
+			{% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+    </header>
+			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+				{% if page_num %}
+					{% if page_num == topics.page %}
+						<a class="btn btn-primary" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
+					{% else %}
+						<a class="btn btn-default" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
+					{% endif %}
+				{% else %}
+					...
+				{% endif %}
+			{% endfor %}
+ </body>
+</div>
+ {% endblock %}
+</html>

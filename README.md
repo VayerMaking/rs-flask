@@ -1,6 +1,8 @@
 # rs-flask
 flask site project for the subject rs (software development)
 
+[![time tracker](https://wakatime.com/badge/github/VayerMaking/rs-flask.svg)](https://wakatime.com/badge/github/VayerMaking/rs-flask)
+
 ## the task
 
   ```sh
@@ -37,9 +39,9 @@ flask site project for the subject rs (software development)
 
   - [x] register page
   - [x] login page
-  - [ ] index page
-  - [ ] add new post/ topic for logged users
-  - [ ] password encryption
+  - [x] index page
+  - [x] add new post/ topic for logged users
+  - [x] password encryption
   - [ ] images in posts
   - [ ] limit post to 25
   - [ ] beautify design?

@@ -1,11 +1,23 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="col text-center">
+{% if session['username'] %}
+
+	<h4>Logged in as: {{session['username']}}</h4>
+	<a class="btn btn-default" role="button" href = '/'>Home</a>
+	<a class="btn btn-default" role="button" href = '/logout'>Log out</a>
+{% else %}
+<h4 class="text-center">Not logged in!</h4>
+<a class="btn btn-default" role="button" href="/login">Login</a>
+<a class="btn btn-default" role="button" href="/register">Register</a>
+
+{% endif %}
 <html>
   <head>
-		<title>Flask Login Example</title>
   </head>
   <body>
-    <div><a href="/">Flask Login Example</a></div>
-
-    <hr>
+  	</div>
     {% block content %}{% endblock %}
   </body>
 </html>

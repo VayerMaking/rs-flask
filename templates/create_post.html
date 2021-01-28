@@ -1,26 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+<div class="col text-center">
 <div>New Post:
-	<form method="POST" url = "/post">
-		<input type="radio" id="arts" name="topic" value="Arts">
-  		<label for="Arts">Arts</label>
-  		<input type="radio" id="sport" name="topic" value="Sport">
-  		<label for="Sport">Sport</label>
-  		<input type="radio" id="science" name="topic" value="Science">
-  		<label for="Science">Science</label>
-  		<input type="radio" id="politics" name="topic" value="Politics">
-  		<label for="Politics">Politics</label>
-  		<input type="radio" id="religion" name="topic" value="Religion">
-  		<label for="Religion">Religion</label>
-  		<input type="radio" id="music" name="topic" value="Music">
-  		<label for="Music">Music</label>
-  		<input type="radio" id="entertainment" name="topic" value="Entertainment">
-  		<label for="Entertainment">Entertainment</label><br>
-		<br><input type="text" name="title" placeholder = "Title"><br>
-		<br><label name="picture">Image:</label>
- 		<br><input type=file name="picture"><br>
-      	<br><input type="text" name = "content" placeholder = "Content"><br>
-		<br><input type="submit" value="New Post" class="button">
+	<form method="POST" url = "new_post/?topic={{topic}}" enctype="multipart/form-data">
+	<br><input type="text" name="post_title" placeholder = "Title"><br>
+    <br><textarea name="post_content" style="width:250px;height:150px;" placeholder = "Content"></textarea><br>
+    <br><input class="form-control center" style="text-align: center;margin: 0 auto;" name ="post_image" type = "file" placeholder = "Image"><br>
+	<br><input type="submit" value="New Post" class="button">
 	</form>
+</div>
+{% endif %}
 {% endblock %}
