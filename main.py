@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from flask import send_from_directory
 import time
 from datetime import datetime
 import config
@@ -185,6 +186,11 @@ def delete_post():
         return redirect('/')
     else:
         return render_template('forbidden_delete.html')
+
+@app.route('/uploads/<filename>')
+def get_uploaded_file(filename):
+    directory = os.path.join('..', app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory, filename)
 
 
 def allowed_file(filename):
