@@ -9,17 +9,14 @@
 	{% for post in posts %}
 		<a class="btn btn-default" role="button" href="/post/update_post/?post_title={{post.title}}">Update post</a>
 		<a class="btn btn-default" role="button" href="/post/delete_post/?post_title={{post.title}}">Delete post</a>
-<<<<<<< HEAD
 		<br><h3>Title: {{post.title}}</br></h3>
 		<h4><br>Written by: {{post.author}} at {{post.timestamp}}</h4></br>
-		<br><img src="/uploads/{{ post.picture }}" width = "512" height = "300" style = "float: center"></br>
+		<br><img src="/static/uploads/{{ post.picture }}" width = "512" height = "300" style = "float: center"></br>
 	    <br><h3>{{post.content}}</h3></b>
-=======
 		<br>Title: {{post.title}}</br>
 		<br><img src="/uploads/{{ post.picture }}" style="max-width: 60px; max-height: 60px; float: left"></br>
 	    <br>{{post.content}}</br>
 	    <br>Written by: {{post.author}}</br>
->>>>>>> a1c0132db06c88573b898c5ed3d0f1d1c6381794
 </div>
 	{% endfor %}
 {% endif %}
