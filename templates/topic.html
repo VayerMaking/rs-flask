@@ -3,9 +3,12 @@
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
+	<a class="btn btn-default" role="button" href="/topic/new_post/?topic={{topic}}">Create post</a>
+	<a class="btn btn-default" role="button" href="/topic/new_post">Update post</a>
+	<a class="btn btn-default" role="button" href="/topic/new_post">Delete post</a>
 
 {% for post in posts %}
-	<br> {{post.title}} <br>
+	<br> {{post.content}} <br>
 	<h5> {{post.author}} </h5>
 {% endfor %}
 

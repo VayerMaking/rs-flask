@@ -35,7 +35,6 @@ class Topic(db.Model):
     title = db.Column(db.String(30), nullable = False)
     content = db.Column(db.String, nullable = False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    posts = []
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -48,6 +47,10 @@ class Post(db.Model):
 def topic_return():
 	page = request.args.get('page', 1, type=int)
 	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=3)
+
+def post_return():
+	return Post.query.all()
+
 
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
@@ -91,9 +94,8 @@ def login():
 @app.route("/topic/", methods=['GET'])
 def topic():
     #print("query string", request.args.get('topic'))
-    posts = Topic.query.filter_by(title=request.args.get('topic')).all()
-    #print("topic", topic)
-    return render_template("topic.html", posts=posts)
+    posts = Post.query.filter_by(topic=request.args.get('topic')).all()
+    return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
 def logout():
@@ -120,7 +122,7 @@ def new_topic():
 	else:
 		return render_template("create_topic.html")
 
-@app.route('/new_post', methods = ['GET', 'POST'])
+@app.route('/topic/new_post/', methods = ['GET', 'POST'])
 def new_post():
 
     if request.method == "POST":
@@ -135,16 +137,17 @@ def new_post():
         post = Post(
             author = session['username'],
             content = data['post_content'],
-            picture = file.filename
+            picture = file.filename,
+            topic = request.args.get('topic')
 			)
 
         db.session.add(post)
         db.session.commit()
-
+        #.get_topic().posts.append(post)
         return redirect('/')
 
     else:
-        return render_template("create_post.html")
+        return render_template("create_post.html", topic=request.args.get('topic'))
 
 def allowed_file(filename):
     return '.' in filename and \

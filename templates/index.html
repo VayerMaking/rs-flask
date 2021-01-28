@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if topic%}
+{% if topic==None %}
 	<p> no topics</p>
 {% endif %}
 
@@ -30,7 +30,7 @@
 	  </table>
 	</div>
     </header>
-			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1) %}
+			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
 				{% if page_num %}
 					{% if page_num == topics.page %}
 						<a class="btn btn-primary" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
