@@ -1,3 +1,4 @@
+ 
 from flask import Flask
 from flask import render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -40,7 +41,7 @@ class Post(db.Model):
     author = db.Column(db.String, nullable=False)
     title = db.Column(db.String, nullable = False)
     content = db.Column(db.String, nullable = False)
-    picture = db.Column(db.String(48), nullable = True, default="default.jpg")
+    picture = db.Column(db.String(48), nullable = True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     topic = db.Column(db.String)
 
@@ -93,8 +94,8 @@ def login():
 
 @app.route("/topic/", methods=['GET'])
 def topic():
-    #print("query string", request.args.get('topic'))
-    posts = Post.query.filter_by(topic=request.args.get('topic')).all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
     return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
@@ -140,7 +141,7 @@ def new_post():
             picture = file.filename,
             topic = request.args.get('topic')
 			)
-        print(post.picture)
+
         db.session.add(post)
         db.session.commit()
         #.get_topic().posts.append(post)
@@ -151,9 +152,46 @@ def new_post():
 
 @app.route('/post/', methods = ['GET', 'POST'])
 def post():
+	posts = Post.query.filter_by(title=request.args.get('post_title')).all()
+	return render_template("post.html", posts=posts)
 
-	post = Post.query.filter_by(title=request.args.get('post_title')).all()
-	return render_template("post.html", posts=post)
+@app.route('/post/update_post/', methods = ['GET', 'POST'])
+def update_post():
+    if request.method == "POST":
+        data = request.form
+
+        file = request.files['post_image']
+
+        if file and file.filename != '' and allowed_file(file.filename):
+            file.filename = random_string(48)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        post = Post.query.filter_by(title=request.args.get('post_title')).first()
+        post.title = data['post_title']
+        post.content = data['post_content']
+        post.picture = file.filename
+
+        db.session.commit()
+		#TODO: redirecting to current topic
+        return redirect('/')
+
+    else:
+        post = Post.query.filter_by(title=request.args.get('post_title')).first()
+        if post.author == session['username']:
+            return render_template("update_post.html", author=post.author)
+        else:
+            return render_template('forbidden_update.html')
+
+@app.route('/post/delete_post/', methods = ['GET', 'POST'])
+def delete_post():
+    post = Post.query.filter_by(title=request.args.get('post_title')).first()
+    if post.author == session['username']:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('forbidden_delete.html')
+
 
 def allowed_file(filename):
     return '.' in filename and \

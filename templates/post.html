@@ -4,6 +4,7 @@
 <p>Oh no Dont show page</p>
 {% else %}
 
+<<<<<<< HEAD
 	<a class="btn btn-default" role="button" href="/topic/new_post">Update post</a>
 	<a class="btn btn-default" role="button" href="/topic/new_post">Delete post</a>
 	{% for post in posts %}
@@ -13,6 +14,16 @@
 		<br> {{post.picture}} </br>
 		<td><img src="uploads/{{ post.picture }}" class = "card-img-top" width="256" height="128"></td>
 	    <td>{{post.content}}</td>
+=======
+
+	{% for post in posts %}
+		<a class="btn btn-default" role="button" href="/post/update_post/?post_title={{post.title}}">Update post</a>
+		<a class="btn btn-default" role="button" href="/post/delete_post/?post_title={{post.title}}">Delete post</a>
+		<br>Title: {{post.title}}</br>
+		<br>{{post.picture}}</br>
+	    <br>{{post.content}}</br>
+	    <br>Written by: {{post.author}}</br>
+>>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
 	{% endfor %}
 {% endif %}
 {% endblock %}

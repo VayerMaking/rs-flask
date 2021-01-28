@@ -4,6 +4,7 @@
 <p>Oh no Dont show page</p>
 {% else %}
 	<a class="btn btn-default" role="button" href="/topic/new_post/?topic={{topic}}">Create post</a>
+<<<<<<< HEAD
 
 	<div class="table-responsive">
 	  <table class="table">
@@ -25,6 +26,41 @@
 	    </tbody>
 	  </table>
 	</div>
+=======
+
+	<div class="table-responsive">
+	  <table class="table">
+	    <thead>
+	      <tr>
+	      	<th>#</th>
+	        <th>Title</th>
+	        <th>Author</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	        {% for post in posts.items %}
+		        <tr>
+		        	<td>{{post.id}}</td>
+				    <td><a href = "/post/?post_title={{post.title}}"> {{post.title}} </a></td>
+				    <td>{{post.author}}</td>
+				</tr>
+			{% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+		{% if page_num %}
+			{% if page_num == posts.page %}
+				<a class="btn btn-primary" href = "/topic/?topic={{topic}}&page={{page_num}}">{{ page_num }}</a>
+			{% else %}
+				<a class="btn btn-default" href= "/topic/?topic={{topic}}&page={{page_num}}" >{{ page_num }}</a>
+			{% endif %}
+		{% else %}
+			...
+		{% endif %}
+	{% endfor %}
+
+>>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
 
 {% endif %}
 {% endblock %}

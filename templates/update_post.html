@@ -3,18 +3,12 @@
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
-<div>New Post:
+<div>Update Post:
 	<form method="POST" url = "new_post/?topic={{topic}}" enctype="multipart/form-data">
 	<br><input type="text" name="post_title" placeholder = "Title"><br>
-<<<<<<< HEAD
-    <br><input type="text" name ="post_content" placeholder = "Content"><br>
+    <textarea name="post_content" style="width:250px;height:150px;" placeholder = "Content"></textarea>
     <br><input type="file" name ="post_image" placeholder = "Image"><br>
 		<br><input type="submit" value="New Post" class="button">
-=======
-    <br><textarea name="post_content" style="width:250px;height:150px;" placeholder = "Content"></textarea><br>
-    <br><input  name ="post_image"type = "file" placeholder = "Image"><br>
-	<br><input type="submit" value="New Post" class="button">
->>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
 	</form>
 {% endif %}
 {% endblock %}
