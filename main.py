@@ -10,7 +10,7 @@ import random
 import string
 import os
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -164,7 +164,8 @@ def update_post():
         post = Post.query.filter_by(title=request.args.get('post_title')).first()
         post.title = data['post_title']
         post.content = data['post_content']
-        post.picture = file.filename
+        if file.filename:
+            post.picture = file.filename
 
         db.session.commit()
 		#TODO: redirecting to current topic
