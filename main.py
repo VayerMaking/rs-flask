@@ -93,8 +93,8 @@ def login():
 
 @app.route("/topic/", methods=['GET'])
 def topic():
-    #print("query string", request.args.get('topic'))
-    posts = Post.query.filter_by(topic=request.args.get('topic')).all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
     return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
@@ -151,8 +151,8 @@ def new_post():
 
 @app.route('/post/', methods = ['GET', 'POST'])
 def post():
-	post = Post.query.filter_by(title=request.args.get('post_title')).all()
-	return render_template("post.html", posts=post)
+	posts = Post.query.filter_by(title=request.args.get('post_title')).all()
+	return render_template("post.html", posts=posts)
 
 @app.route('/post/update_post/', methods = ['GET', 'POST'])
 def update_post():
@@ -172,7 +172,7 @@ def update_post():
         post.picture = file.filename
 
         db.session.commit()
-
+		#TODO: redirecting to current topic
         return redirect('/')
 
     else:
@@ -184,6 +184,7 @@ def delete_post():
     print("post:::", post)
     db.session.delete(post)
     db.session.commit()
+    #TODO: redirecting to current topic
     return redirect('/')
 
 

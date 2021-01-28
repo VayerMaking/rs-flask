@@ -3,7 +3,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 {% if session['username'] %}
-
+<div class="col text-center">
 	{% if username %}
 	<h4>Logged in as: {{username}}</h4>
 	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
@@ -14,10 +14,10 @@
 	{% endif %}
 
 {% else %}
-<h4>Not logged in!</h4>
-
+<h4 class="text-center">Not logged in!</h4>
 <a class="btn btn-default" role="button" href="/login">Login</a>
 <a class="btn btn-default" role="button" href="/register">Register</a>
+</div>
 
 {% endif %}
 
@@ -25,8 +25,6 @@
   <head>
   </head>
   <body>
-    <div><a href="/"></a></div>
-
     {% block content %}{% endblock %}
   </body>
 </html>
