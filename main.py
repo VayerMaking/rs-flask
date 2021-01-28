@@ -31,14 +31,14 @@ def hash_password(password):
 
 class Topic(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    author = db.Column(db.String)
+    author = db.Column(db.String, nullable=False)
     title = db.Column(db.String(30), nullable = False)
-    content = db.Column(db.String, nullable = False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    author = db.Column(db.String)
+    author = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable = False)
     content = db.Column(db.String, nullable = False)
     picture = db.Column(db.String(48), nullable = True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -111,7 +111,6 @@ def new_topic():
 		topic = Topic(
 			   author = session['username']	,
 			   title = data['title'],
-			   content = data['content'],
 			)
 
 		db.session.add(topic)
@@ -136,6 +135,7 @@ def new_post():
 
         post = Post(
             author = session['username'],
+            title = data['post_title'],
             content = data['post_content'],
             picture = file.filename,
             topic = request.args.get('topic')
@@ -148,6 +148,11 @@ def new_post():
 
     else:
         return render_template("create_post.html", topic=request.args.get('topic'))
+
+@app.route('/post/', methods = ['GET', 'POST'])
+def post():
+	post = Post.query.filter_by(title=request.args.get('post_title')).all()
+	return render_template("post.html", posts=post)
 
 def allowed_file(filename):
     return '.' in filename and \
