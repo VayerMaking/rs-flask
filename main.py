@@ -166,7 +166,6 @@ def update_post():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 
         post = Post.query.filter_by(title=request.args.get('post_title')).first()
-        print(post)
         post.title = data['post_title']
         post.content = data['post_content']
         post.picture = file.filename
@@ -176,16 +175,21 @@ def update_post():
         return redirect('/')
 
     else:
-    	return render_template("update_post.html")
+        post = Post.query.filter_by(title=request.args.get('post_title')).first()
+        if post.author == session['username']:
+            return render_template("update_post.html", author=post.author)
+        else:
+            return render_template('forbidden_update.html')
 
 @app.route('/post/delete_post/', methods = ['GET', 'POST'])
 def delete_post():
     post = Post.query.filter_by(title=request.args.get('post_title')).first()
-    print("post:::", post)
-    db.session.delete(post)
-    db.session.commit()
-    #TODO: redirecting to current topic
-    return redirect('/')
+    if post.author == session['username']:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('forbidden_delete.html')
 
 
 def allowed_file(filename):

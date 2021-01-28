@@ -1,17 +1,18 @@
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 {% if session['username'] %}
 <div class="col text-center">
 	{% if username %}
-	<h4>Logged in as: {{username}}</h4>
-	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
-	<a class="btn btn-default" role="button" href="/new_topic">Create new topic</a>
+		<h4>Logged in as: {{username}}</h4>
 	{% else %}
-
-	<a class="btn btn-default" role="button" href="/logout">Logout</a>
+		{% set username = "Guest" %}
+		<h4>Logged in as: {{username}}</h4>
 	{% endif %}
+	<b><a class="btn btn-default" role="button" href = '/'>Home</a></b>
+	<b><a class="btn btn-default" role="button" href = '/logout'>Log out</a></b>
+	<b><a class="btn btn-default" role="button" href="/new_topic">Create new topic</a></b>
 
 {% else %}
 <h4 class="text-center">Not logged in!</h4>
