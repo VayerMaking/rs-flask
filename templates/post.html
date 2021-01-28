@@ -4,7 +4,7 @@
 <p>Oh no Dont show page</p>
 {% else %}
 
-
+<div class="col text-center">
 	{% for post in posts %}
 		<a class="btn btn-default" role="button" href="/post/update_post/?post_title={{post.title}}">Update post</a>
 		<a class="btn btn-default" role="button" href="/post/delete_post/?post_title={{post.title}}">Delete post</a>
@@ -12,6 +12,7 @@
 		<br>{{post.picture}}</br>
 	    <br>{{post.content}}</br>
 	    <br>Written by: {{post.author}}</br>
+</div>
 	{% endfor %}
 {% endif %}
 {% endblock %}

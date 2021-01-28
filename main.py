@@ -94,7 +94,7 @@ def login():
 @app.route("/topic/", methods=['GET'])
 def topic():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
+    posts = Post.query.order_by(Post.timestamp.asc()).filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
     return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
