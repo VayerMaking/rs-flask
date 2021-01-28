@@ -52,7 +52,6 @@ def topic_return():
 def post_return():
 	return Post.query.all()
 
-
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def index():
@@ -139,7 +138,7 @@ def new_post():
 
         db.session.add(post)
         db.session.commit()
-        #.get_topic().posts.append(post)
+
         return redirect('/')
 
     else:
@@ -168,7 +167,7 @@ def update_post():
             post.picture = file.filename
 
         db.session.commit()
-		#TODO: redirecting to current topic
+
         return redirect('/')
 
     else:
@@ -193,14 +192,12 @@ def get_uploaded_file(filename):
     directory = os.path.join('..', app.config['UPLOAD_FOLDER'])
     return send_from_directory(directory, filename)
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def random_string(length):
     return ''.join(random.choice(string.ascii_letters) for x in range(length))
-
 
 if __name__ == '__main__':
 	db.create_all()

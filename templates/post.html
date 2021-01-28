@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block content %}
 {% if session['logged_in'] %}
@@ -13,5 +12,6 @@
 		<br><img src="/static/uploads/{{ post.picture }}" width = "512" height = "300" style = "float: center"></br>
 	    <br><h3>{{post.content}}</h3></b>
 </div>
+
 {% endif %}
 {% endblock %}
