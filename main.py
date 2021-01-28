@@ -56,12 +56,7 @@ def post_return():
 @app.route('/home', methods=['GET'])
 def index():
     if request.method == "GET":
-        if 'username' in session:
-            username = session['username']
-        else:
-            username = "Guest"
-
-        return render_template('index.html', username=username, topics=topic_return())
+        return render_template('index.html', topics=topic_return())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -94,7 +89,7 @@ def login():
 @app.route("/topic/", methods=['GET'])
 def topic():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
+    posts = Post.query.order_by(Post.timestamp.asc()).filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=3)
     return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')

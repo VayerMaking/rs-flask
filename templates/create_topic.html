@@ -10,11 +10,14 @@
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
+<div class="col text-center">
 <div>New Topic:
 	<form method="POST" url = "/new_topic">
 		<br><input type="text" name="title" placeholder = "Title"><br>
 		<br><input type="submit" value="New Topic" class="button">
 >>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
 	</form>
+</div>
+</div>
 {% endif %}
 {% endblock %}

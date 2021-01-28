@@ -12,6 +12,8 @@
 </head>
   <body>
     <header>
+<div class="col text-center">
+    <a class="btn btn-default" role="button" href="/new_topic">Create new topic</a>
 	<div class="table-responsive">
 	  <table class="table">
 	    <thead>
@@ -19,6 +21,7 @@
 	      	<th>#</th>
 	        <th>Topic</th>
 	        <th>Author</th>
+	        <th>Created at</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -46,6 +49,7 @@
 				{% endif %}
 			{% endfor %}
  </body>
+</div>
  {% endblock %}
 </html>
 	

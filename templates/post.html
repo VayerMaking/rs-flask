@@ -5,6 +5,7 @@
 {% else %}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<a class="btn btn-default" role="button" href="/topic/new_post">Update post</a>
 	<a class="btn btn-default" role="button" href="/topic/new_post">Delete post</a>
 	{% for post in posts %}
@@ -16,6 +17,9 @@
 	    <td>{{post.content}}</td>
 =======
 
+=======
+<div class="col text-center">
+>>>>>>> 9bcf81a5cc83cc188dbdf4e687cce00111024956
 	{% for post in posts %}
 		<a class="btn btn-default" role="button" href="/post/update_post/?post_title={{post.title}}">Update post</a>
 		<a class="btn btn-default" role="button" href="/post/delete_post/?post_title={{post.title}}">Delete post</a>
@@ -23,7 +27,11 @@
 		<br>{{post.picture}}</br>
 	    <br>{{post.content}}</br>
 	    <br>Written by: {{post.author}}</br>
+<<<<<<< HEAD
 >>>>>>> 8c146b9a45a243e4ba419812ff1db0848963f8c5
+=======
+</div>
+>>>>>>> 9bcf81a5cc83cc188dbdf4e687cce00111024956
 	{% endfor %}
 {% endif %}
 {% endblock %}
