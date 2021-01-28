@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from flask import send_from_directory
 import time
 from datetime import datetime
 import config
@@ -46,7 +47,7 @@ class Post(db.Model):
 
 def topic_return():
 	page = request.args.get('page', 1, type=int)
-	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=3)
+	return Topic.query.order_by(Topic.timestamp.asc()).paginate(page=page, per_page=25)
 
 def post_return():
 	return Post.query.all()
@@ -56,12 +57,7 @@ def post_return():
 @app.route('/home', methods=['GET'])
 def index():
     if request.method == "GET":
-        if 'username' in session:
-            username = session['username']
-        else:
-            username = "Guest"
-
-        return render_template('index.html', username=username, topics=topic_return())
+        return render_template('index.html', topics=topic_return())
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -93,8 +89,8 @@ def login():
 
 @app.route("/topic/", methods=['GET'])
 def topic():
-    #print("query string", request.args.get('topic'))
-    posts = Post.query.filter_by(topic=request.args.get('topic')).all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.asc()).filter_by(topic=request.args.get('topic')).paginate(page=page, per_page=25)
     return render_template("topic.html", posts=posts, topic=request.args.get('topic'))
 
 @app.route('/logout')
@@ -151,8 +147,8 @@ def new_post():
 
 @app.route('/post/', methods = ['GET', 'POST'])
 def post():
-	post = Post.query.filter_by(title=request.args.get('post_title')).all()
-	return render_template("post.html", posts=post)
+	posts = Post.query.filter_by(title=request.args.get('post_title')).all()
+	return render_template("post.html", posts=posts)
 
 @app.route('/post/update_post/', methods = ['GET', 'POST'])
 def update_post():
@@ -171,7 +167,7 @@ def update_post():
         post.picture = file.filename
 
         db.session.commit()
-
+		#TODO: redirecting to current topic
         return redirect('/')
 
     else:
@@ -190,6 +186,11 @@ def delete_post():
         return redirect('/')
     else:
         return render_template('forbidden_delete.html')
+
+@app.route('/uploads/<filename>')
+def get_uploaded_file(filename):
+    directory = os.path.join('..', app.config['UPLOAD_FOLDER'])
+    return send_from_directory(directory, filename)
 
 
 def allowed_file(filename):

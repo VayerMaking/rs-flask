@@ -1,17 +1,23 @@
+
 {% extends "base.html" %}
 {% block content %}
 {% if session['logged_in'] %}
 <p>Oh no Dont show page</p>
 {% else %}
 
-
+<div class="col text-center">
 	{% for post in posts %}
 		<a class="btn btn-default" role="button" href="/post/update_post/?post_title={{post.title}}">Update post</a>
 		<a class="btn btn-default" role="button" href="/post/delete_post/?post_title={{post.title}}">Delete post</a>
+		<br><h3>Title: {{post.title}}</br></h3>
+		<h4><br>Written by: {{post.author}} at {{post.timestamp}}</h4></br>
+		<br><img src="/static/uploads/{{ post.picture }}" width = "512" height = "300" style = "float: center"></br>
+	    <br><h3>{{post.content}}</h3></b>
 		<br>Title: {{post.title}}</br>
-		<br>{{post.picture}}</br>
+		<br><img src="/uploads/{{ post.picture }}" style="max-width: 60px; max-height: 60px; float: left"></br>
 	    <br>{{post.content}}</br>
 	    <br>Written by: {{post.author}}</br>
+</div>
 	{% endfor %}
 {% endif %}
 {% endblock %}

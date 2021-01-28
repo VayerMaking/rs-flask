@@ -2,25 +2,26 @@
 {% block content %}
 
 {% if topic==None %}
-	<p> no topics</p>
+	<p class="text-center"> no topics</p>
 {% endif %}
 
 </head>
   <body>
     <header>
+<div class="col text-center">
+    <a class="btn btn-default" role="button" href="/new_topic">Create new topic</a>
 	<div class="table-responsive">
 	  <table class="table">
 	    <thead>
 	      <tr>
-	      	<th>#</th>
 	        <th>Topic</th>
 	        <th>Author</th>
+	        <th>Created at</th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	        {% for topic in topics.items %}
 		        <tr>
-		        	<td>{{topic.id}}</td>
 				    <td><a href = "/topic/?topic={{topic.title}}"> {{topic.title}} </a></td>
 				    <td>{{topic.author}}</td>
 						<td>{{topic.timestamp}}</td>
@@ -30,7 +31,7 @@
 	  </table>
 	</div>
     </header>
-			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+			{% for page_num in topics.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 				{% if page_num %}
 					{% if page_num == topics.page %}
 						<a class="btn btn-primary" href="{{ url_for('index', page=page_num)}}">{{ page_num }}</a>
@@ -42,5 +43,6 @@
 				{% endif %}
 			{% endfor %}
  </body>
+</div>
  {% endblock %}
 </html>
