@@ -13,6 +13,20 @@ flask site project for the subject rs (software development)
 
   use our installer - ```install.sh``` or prepare manually
 
+  change permissions of the file so it can be executed
+
+  ```sh
+  sudo chmod +x ./install.sh
+  ```
+
+  run the installer
+
+  ```sh
+  ./install.sh
+  ```
+
+  change the default value of the secret_key in ```config.py```
+
   create a virtual enviroment
 
   ```sh
