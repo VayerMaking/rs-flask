@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+
+	<a class="btn btn-default" role="button" href="/topic/new_post">Update post</a>
+	<a class="btn btn-default" role="button" href="/topic/new_post">Delete post</a>
+	{% for post in posts %}
+		<br>Title: {{post.title}}</br>
+		<br>{{post.picture}}</br>
+	    <br>{{post.content}}</br>
+	    <br>Written by: {{post.author}}</br> 
+	{% endfor %}
+{% endif %}
+{% endblock %}
